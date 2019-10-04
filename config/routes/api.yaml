@@ -1,0 +1,5 @@
+api_tetris_game:
+    resource: '../../src/Controller/Api/TetrisGame/'
+    type: 'annotation'
+    prefix: '/api/tetris-games'
+    trailing_slash_on_root: false

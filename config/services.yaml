@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Query\:
+        resource: '../src/Query/**/*Handler.php'
+
+    App\Command\:
+        resource: '../src/Command/**/*Handler.php'
