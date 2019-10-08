@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.tetrisGameId) }}
+    {{ form_row(form.personId) }}
+    {{ form_row(form.rank) }}
+
+    <input type="submit" />
+    {{ form_end(form) }}
+{% endblock body %}

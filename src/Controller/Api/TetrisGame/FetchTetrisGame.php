@@ -6,9 +6,13 @@ namespace App\Controller\Api\TetrisGame;
 
 use App\Query\FetchTetrisGameQuery;
 use App\Query\FetchTetrisGameQueryHandler;
+use Fig\Link\GenericLinkProvider;
+use Fig\Link\Link;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -19,7 +23,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  *     methods={"GET"}
  * )
  */
-class FetchTetrisGames
+class FetchTetrisGame
 {
     /**
      * @var FetchTetrisGameQueryHandler
@@ -31,20 +35,32 @@ class FetchTetrisGames
      */
     private $serializer;
 
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
     public function __construct(
         FetchTetrisGameQueryHandler $fetchTetrisGameQueryHandler,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        RouterInterface $router
     ) {
         $this->fetchTetrisGameQueryHandler = $fetchTetrisGameQueryHandler;
         $this->serializer                  = $serializer;
+        $this->router                      = $router;
     }
 
-    public function __invoke(string $tetrisGameId)
+    public function __invoke(Request $request, string $tetrisGameId)
     {
         $query               = new FetchTetrisGameQuery();
         $query->tetrisGameId = $tetrisGameId;
 
         $tetrisGame = ($this->fetchTetrisGameQueryHandler)($query);
+
+        $linkProvider = $request->attributes->get('_links', new GenericLinkProvider());
+        $request->attributes->set('_links', $linkProvider->withLink(
+            new Link('preload', $this->router->generate('api_list_tetris_game_challengers', ['tetrisGameId' => $tetrisGameId]))
+        ));
 
         return new JsonResponse(
             $this->serializer->serialize($tetrisGame, JsonEncoder::FORMAT),

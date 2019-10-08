@@ -3,12 +3,20 @@ services:
         autowire: true
         autoconfigure: true
 
+    App\Cli\:
+        resource: '../src/Cli'
+
+    App\Command\:
+        resource: '../src/Command/**/*Handler.php'
+
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    App\Form\:
+        resource: '../src/Form'
+        exclude:
+            - '../src/Form/Dto'
+
     App\Query\:
         resource: '../src/Query/**/*Handler.php'
-
-    App\Command\:
-        resource: '../src/Command/**/*Handler.php'

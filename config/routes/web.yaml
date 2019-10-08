@@ -1,0 +1,4 @@
+web:
+    resource: '../../src/Controller/Web/'
+    type: 'annotation'
+    trailing_slash_on_root: false

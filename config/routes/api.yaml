@@ -1,5 +1,17 @@
+api_challenger:
+    resource: '../../src/Controller/Api/Challenger/'
+    type: 'annotation'
+    prefix: '/api/tetris-games/{tetrisGameId}/challengers'
+    trailing_slash_on_root: false
+
 api_tetris_game:
     resource: '../../src/Controller/Api/TetrisGame/'
     type: 'annotation'
     prefix: '/api/tetris-games'
+    trailing_slash_on_root: false
+
+api_person:
+    resource: '../../src/Controller/Api/Person/'
+    type: 'annotation'
+    prefix: '/api/persons'
     trailing_slash_on_root: false
