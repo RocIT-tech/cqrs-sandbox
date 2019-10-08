@@ -25,7 +25,7 @@ class CreateChallengersCommandHandler
 
     public function __invoke(CreateChallengersCommand $createChallengersCommand): void
     {
-        $em = $this->registry->getEntityManagerForClass(ChallengerEntity::class);
+        $em = $this->registry->getManagerForClass(ChallengerEntity::class);
 
         $tetrisGame = $em->getReference(TetrisGame::class, $createChallengersCommand->tetrisGameId);
 

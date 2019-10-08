@@ -23,7 +23,7 @@ class CreateChallengerCommandHandler
 
     public function __invoke(CreateChallengerCommand $createChallengerCommand): void
     {
-        $em = $this->registry->getEntityManagerForClass(Challenger::class);
+        $em = $this->registry->getManagerForClass(Challenger::class);
 
         $challenger             = new Challenger();
         $challenger->person     = $em->getReference(Person::class, $createChallengerCommand->personId);

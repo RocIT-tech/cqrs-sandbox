@@ -21,7 +21,7 @@ class CreatePersonCommandHandler
 
     public function __invoke(CreatePersonCommand $createPersonCommand): void
     {
-        $em = $this->registry->getEntityManagerForClass(PersonEntity::class);
+        $em = $this->registry->getManagerForClass(PersonEntity::class);
 
         $personEntity = new PersonEntity();
         $personEntity->id = $createPersonCommand->id;

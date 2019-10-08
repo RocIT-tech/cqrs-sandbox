@@ -30,7 +30,7 @@ class FetchTetrisGameQueryHandler
      */
     public function __invoke(FetchTetrisGameQuery $fetchTetrisGameQuery): TetrisGame
     {
-        $em = $this->registry->getEntityManagerForClass(TetrisGameEntity::class);
+        $em = $this->registry->getManagerForClass(TetrisGameEntity::class);
 
         $tetrisGameRepository = $em->getRepository(TetrisGameEntity::class);
 

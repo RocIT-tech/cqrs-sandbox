@@ -24,7 +24,7 @@ class ListPersonsQueryHandler
 
     public function __invoke(ListPersonsQuery $listPersonsQuery): ListPerson
     {
-        $em         = $this->registry->getEntityManagerForClass(PersonEntity::class);
+        $em         = $this->registry->getManagerForClass(PersonEntity::class);
         $repository = $em->getRepository(PersonEntity::class);
 
         $countQb = $repository->createQueryBuilder('person');

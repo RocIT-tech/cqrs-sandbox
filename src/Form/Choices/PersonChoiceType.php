@@ -27,7 +27,7 @@ class PersonChoiceType extends AbstractType
     {
         $resolver->setDefaults([
             'choice_loader' => new CallbackChoiceLoader(function () {
-                $em         = $this->registry->getEntityManagerForClass(Person::class);
+                $em         = $this->registry->getManagerForClass(Person::class);
                 $repository = $em->getRepository(Person::class);
 
                 $qb = $repository->createQueryBuilder('person');

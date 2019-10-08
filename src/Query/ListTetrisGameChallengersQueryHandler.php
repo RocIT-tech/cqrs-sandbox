@@ -28,7 +28,7 @@ class ListTetrisGameChallengersQueryHandler
      */
     public function __invoke(ListTetrisGameChallengersQuery $listTetrisGameChallengersQuery): array
     {
-        $em         = $this->registry->getEntityManagerForClass(ChallengerEntity::class);
+        $em         = $this->registry->getManagerForClass(ChallengerEntity::class);
         $repository = $em->getRepository(ChallengerEntity::class);
 
         $qb = $repository->createQueryBuilder('challenger');

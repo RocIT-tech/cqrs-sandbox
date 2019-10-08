@@ -21,7 +21,7 @@ class CreateTetrisGameCommandHandler
 
     public function __invoke(CreateTetrisGameCommand $createTetrisGameCommand): void
     {
-        $em = $this->registry->getEntityManagerForClass(TetrisGameEntity::class);
+        $em = $this->registry->getManagerForClass(TetrisGameEntity::class);
 
         $tetrisGameEntity = new TetrisGameEntity();
         $tetrisGameEntity->id = $createTetrisGameCommand->id;

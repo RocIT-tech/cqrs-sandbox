@@ -28,7 +28,7 @@ class ListTetrisGameQueryHandler
      */
     public function __invoke(ListTetrisGameQuery $listTetrisGameQuery): array
     {
-        $em = $this->registry->getEntityManagerForClass(TetrisGameEntity::class);
+        $em = $this->registry->getManagerForClass(TetrisGameEntity::class);
 
         $tetrisGameRepository = $em->getRepository(TetrisGameEntity::class);
 

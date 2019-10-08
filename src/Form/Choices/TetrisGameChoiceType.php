@@ -27,7 +27,7 @@ class TetrisGameChoiceType extends AbstractType
     {
         $resolver->setDefaults([
             'choice_loader' => new CallbackChoiceLoader(function () {
-                $em         = $this->registry->getEntityManagerForClass(TetrisGame::class);
+                $em         = $this->registry->getManagerForClass(TetrisGame::class);
                 $repository = $em->getRepository(TetrisGame::class);
 
                 $qb = $repository->createQueryBuilder('tetris_game');
