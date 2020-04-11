@@ -19,6 +19,6 @@ See the documentation on how to install it [here](https://github.com/RocIT-tech/
 
 # TODO
 
-- [] Documentation about the CQRS implementation
-- [] Documentation about the OpenApi specs
-- [] Documentation about the functional tests using OpenApi specs
+- [ ] Documentation about the CQRS implementation
+- [ ] Documentation about the OpenApi specs
+- [ ] Documentation about the functional tests using OpenApi specs
