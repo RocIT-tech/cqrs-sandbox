@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\TetrisGame as TetrisGameEntity;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class CreateTetrisGameCommandHandler
+class CreateTetrisGameCommandHandler implements MessageHandlerInterface
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
@@ -28,6 +26,5 @@ class CreateTetrisGameCommandHandler
         $tetrisGameEntity->date = $createTetrisGameCommand->date;
 
         $em->persist($tetrisGameEntity);
-        $em->flush();
     }
 }

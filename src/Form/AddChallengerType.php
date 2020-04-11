@@ -34,6 +34,7 @@ class AddChallengerType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => CreateChallengerCommand::class,
+                'validation_groups' => ['form'],
             ]);
     }
 }

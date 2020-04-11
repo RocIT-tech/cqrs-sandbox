@@ -1,0 +1,13 @@
+{% extends 'base_react.html.twig' %}
+
+{% block body %}
+    {{ include('partials/header.html.twig') }}
+    <div class="container mx-auto bg-white mt-24 md:mt-18">
+        <div id="app"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('homepage', 'react', 'react') }}
+{% endblock %}

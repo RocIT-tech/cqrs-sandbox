@@ -1,0 +1,6 @@
+webpack_encore:
+    strict_mode: true
+    output_path: '%kernel.project_dir%/public/build'
+    builds:
+        vue: '%kernel.project_dir%/public/build/vue'
+        react: '%kernel.project_dir%/public/build/react'

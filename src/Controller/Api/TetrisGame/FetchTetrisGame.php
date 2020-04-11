@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Api\TetrisGame;
 
 use App\Query\FetchTetrisGameQuery;
-use App\Query\FetchTetrisGameQueryHandler;
 use Fig\Link\GenericLinkProvider;
 use Fig\Link\Link;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\HandleTrait;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -25,29 +26,20 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class FetchTetrisGame
 {
-    /**
-     * @var FetchTetrisGameQueryHandler
-     */
-    private $fetchTetrisGameQueryHandler;
+    use HandleTrait;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
     public function __construct(
-        FetchTetrisGameQueryHandler $fetchTetrisGameQueryHandler,
         SerializerInterface $serializer,
-        RouterInterface $router
+        RouterInterface $router,
+        MessageBusInterface $queryBus
     ) {
-        $this->fetchTetrisGameQueryHandler = $fetchTetrisGameQueryHandler;
-        $this->serializer                  = $serializer;
-        $this->router                      = $router;
+        $this->serializer = $serializer;
+        $this->router     = $router;
+        $this->messageBus = $queryBus;
     }
 
     public function __invoke(Request $request, string $tetrisGameId)
@@ -55,7 +47,7 @@ class FetchTetrisGame
         $query               = new FetchTetrisGameQuery();
         $query->tetrisGameId = $tetrisGameId;
 
-        $tetrisGame = ($this->fetchTetrisGameQueryHandler)($query);
+        $tetrisGame = $this->handle($query);
 
         $linkProvider = $request->attributes->get('_links', new GenericLinkProvider());
         $request->attributes->set('_links', $linkProvider->withLink(

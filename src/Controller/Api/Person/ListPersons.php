@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Api\Person;
 
 use App\Query\ListPersonsQuery;
-use App\Query\ListPersonsQueryHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\HandleTrait;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -24,29 +25,20 @@ use function ceil;
  */
 class ListPersons
 {
-    /**
-     * @var ListPersonsQueryHandler
-     */
-    private $listPersonsQueryHandler;
+    use HandleTrait;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
     public function __construct(
-        ListPersonsQueryHandler $listPersonsQueryHandler,
         SerializerInterface $serializer,
-        RouterInterface $router
+        RouterInterface $router,
+        MessageBusInterface $queryBus
     ) {
-        $this->listPersonsQueryHandler = $listPersonsQueryHandler;
-        $this->serializer              = $serializer;
-        $this->router                  = $router;
+        $this->serializer = $serializer;
+        $this->router     = $router;
+        $this->messageBus = $queryBus;
     }
 
     public function __invoke(Request $request)
@@ -55,7 +47,7 @@ class ListPersons
         $query->page = $request->query->getInt('page', $query->page);
         $query->max  = $request->query->getInt('max', $query->max);
 
-        $persons = ($this->listPersonsQueryHandler)($query);
+        $persons = $this->handle($query);
 
         if ($persons->count > $query->max) {
             $persons->_links['next'] = $this->router->generate('api_list_persons', [

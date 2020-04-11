@@ -9,33 +9,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Challenger
 {
     /**
-     * @var string
-     *
      * @Assert\NotNull()
      * @Assert\NotBlank(allowNull=true)
      * @Assert\Type("string")
      */
-    public $id;
+    public ?string $id = null;
 
     /**
-     * @var string
-     *
-     * @Assert\NotNull(groups={"form"})
-     * @Assert\NotBlank(allowNull=true, groups={"form"})
-     * @Assert\Type("string", groups={"form"})
+     * @Assert\NotNull(groups={"Default", "form"})
+     * @Assert\NotBlank(allowNull=true, groups={"Default", "form"})
+     * @Assert\Type("string", groups={"Default", "form"})
      */
-    public $personId;
+    public ?string $personId;
 
     /**
-     * @var int
-     *
-     * @Assert\NotNull(groups={"form"})
-     * @Assert\NotBlank(allowNull=true, groups={"form"})
-     * @Assert\Type("int", groups={"form"})
+     * @Assert\NotNull(groups={"Default", "form"})
+     * @Assert\NotBlank(allowNull=true, groups={"Default", "form"})
+     * @Assert\Type("int", groups={"Default", "form"})
      * @Assert\Range(
      *     min=1,
-     *     groups={"form"}
+     *     groups={"Default", "form"}
      * )
      */
-    public $rank;
+    public ?int $rank;
 }

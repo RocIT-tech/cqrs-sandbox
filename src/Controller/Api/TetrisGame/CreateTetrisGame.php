@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\TetrisGame;
 
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Command\CreateTetrisGameCommand;
-use App\Command\CreateTetrisGameCommandHandler;
 use App\Query\FetchTetrisGameQuery;
-use App\Query\FetchTetrisGameQueryHandler;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\HandleTrait;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
@@ -27,36 +26,20 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class CreateTetrisGame
 {
-    /**
-     * @var CreateTetrisGameCommandHandler
-     */
-    private $createTetrisGameCommandHandler;
+    use HandleTrait;
 
-    /**
-     * @var FetchTetrisGameQueryHandler
-     */
-    private $fetchTetrisGameQueryHandler;
+    private SerializerInterface $serializer;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private MessageBusInterface $commandBus;
 
     public function __construct(
-        CreateTetrisGameCommandHandler $createTetrisGameCommandHandler,
-        FetchTetrisGameQueryHandler $fetchTetrisGameQueryHandler,
         SerializerInterface $serializer,
-        ValidatorInterface $validator
+        MessageBusInterface $commandBus,
+        MessageBusInterface $queryBus
     ) {
-        $this->createTetrisGameCommandHandler = $createTetrisGameCommandHandler;
-        $this->fetchTetrisGameQueryHandler = $fetchTetrisGameQueryHandler;
-        $this->serializer                     = $serializer;
-        $this->validator                      = $validator;
+        $this->serializer = $serializer;
+        $this->commandBus = $commandBus;
+        $this->messageBus = $queryBus;
     }
 
     public function __invoke(Request $request)
@@ -75,18 +58,16 @@ class CreateTetrisGame
             ]
         );
 
-        $this->validator->validate($command);
-
-        ($this->createTetrisGameCommandHandler)($command);
+        $this->commandBus->dispatch($command);
 
         $query               = new FetchTetrisGameQuery();
         $query->tetrisGameId = $command->id;
 
-        $tetrisGame = ($this->fetchTetrisGameQueryHandler)($query);
+        $tetrisGame = $this->handle($query);
 
         return new JsonResponse(
             $this->serializer->serialize($tetrisGame, JsonEncoder::FORMAT),
-            Response::HTTP_OK,
+            Response::HTTP_CREATED,
             [],
             true
         );

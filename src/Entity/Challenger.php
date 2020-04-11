@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ChangeTrackingPolicy;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
@@ -18,6 +19,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *      )
  *     }
  * )
+ * @ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
 class Challenger
 {
@@ -27,7 +29,7 @@ class Challenger
      * @ORM\Id()
      * @ORM\Column(name="challenger_id", type="string", length=40, nullable=false)
      */
-    public $id;
+    public string $id;
 
     /**
      * @var TetrisGame
@@ -42,14 +44,14 @@ class Challenger
      *     nullable=false
      * )
      */
-    public $tetrisGame;
+    public TetrisGame $tetrisGame;
 
     /**
      * @var Person
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Person",
-     *     inversedBy="tetrisGames"
+     *     inversedBy="playedTetrisGames"
      * )
      * @ORM\JoinColumn(
      *     name="person_id",
@@ -57,12 +59,12 @@ class Challenger
      *     nullable=false
      * )
      */
-    public $person;
+    public Person $person;
 
     /**
      * @var int
      *
      * @ORM\Column(name="rank", type="smallint", nullable=false)
      */
-    public $rank;
+    public int $rank;
 }

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Api\Challenger;
 
 use App\Query\ListTetrisGameChallengersQuery;
-use App\Query\ListTetrisGameChallengersQueryHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\HandleTrait;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -21,22 +22,16 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class ListChallengers
 {
-    /**
-     * @var ListTetrisGameChallengersQueryHandler
-     */
-    private $listTetrisGameChallengersQueryHandler;
+    use HandleTrait;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
     public function __construct(
-        ListTetrisGameChallengersQueryHandler $listTetrisGameChallengersQueryHandler,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        MessageBusInterface $queryBus
     ) {
-        $this->listTetrisGameChallengersQueryHandler = $listTetrisGameChallengersQueryHandler;
-        $this->serializer                            = $serializer;
+        $this->serializer = $serializer;
+        $this->messageBus = $queryBus;
     }
 
     public function __invoke(string $tetrisGameId)
@@ -44,7 +39,7 @@ class ListChallengers
         $query               = new ListTetrisGameChallengersQuery();
         $query->tetrisGameId = $tetrisGameId;
 
-        $tetrisGames = ($this->listTetrisGameChallengersQueryHandler)($query);
+        $tetrisGames = $this->handle($query);
 
         return new JsonResponse(
             $this->serializer->serialize($tetrisGames, JsonEncoder::FORMAT),

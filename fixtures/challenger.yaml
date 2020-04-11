@@ -1,0 +1,18 @@
+App\Entity\Challenger:
+    challenger_adrien_r_now:
+        id: 'challenger_adrien_r_now'
+        tetrisGame: '@tetris_game_full'
+        person: '@person_adrien_r'
+        rank: 1
+
+    challenger_mathieu_c_now:
+        id: 'challenger_mathieu_c_now'
+        tetrisGame: '@tetris_game_full'
+        person: '@person_mathieu_c'
+        rank: 2
+
+    challenger_remi_b_now:
+        id: 'challenger_remi_b_now'
+        tetrisGame: '@tetris_game_full'
+        person: '@person_remi_b'
+        rank: 3

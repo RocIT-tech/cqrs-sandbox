@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Choices;
 
 use App\Entity\TetrisGame;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,12 +13,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TetrisGameChoiceType extends AbstractType
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }

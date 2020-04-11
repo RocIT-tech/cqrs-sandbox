@@ -1,0 +1,38 @@
+<html lang="fr">
+<head>
+    <title>HTTP/2 push / Vulcain</title>
+</head>
+<p>Open network panel</p>
+<script type="text/javascript">
+    let requestOptions = {
+        method: 'GET',
+        headers: {
+            'Preload': '/persons/*/_links/tetris_games',
+            'Content-Type': 'application/json'
+        },
+        redirect: 'follow'
+    };
+
+    fetch("/api/persons", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+
+            return Promise.all(result.persons.map((person) => {
+                return fetch(person._links.tetris_games, {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+            }));
+        })
+        // .then(response => response.json())
+        .then(results => {
+            results.forEach((result) => {
+                result.json()
+                    .then(result => console.log(result))
+                ;
+            });
+        })
+        .catch(error => console.log('error', error));
+</script>
+</html>

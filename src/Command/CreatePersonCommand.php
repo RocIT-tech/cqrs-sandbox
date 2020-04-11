@@ -9,18 +9,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreatePersonCommand
 {
     /**
-     * @var string
-     *
      * @Assert\NotNull()
      * @Assert\NotBlank(allowNull=true)
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var string
-     *
      * @Assert\NotNull()
      * @Assert\NotBlank(allowNull=true)
      */
-    public $name;
+    public string $name;
 }

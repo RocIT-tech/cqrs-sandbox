@@ -1,0 +1,27 @@
+title: 'ErrorResponse.v1'
+type: 'object'
+required:
+    - 'detail'
+    - 'title'
+    - 'type'
+properties:
+    violations:
+        type: 'array'
+        description: 'Violations list.'
+        items:
+            $ref: './ViolationError.v1.yaml'
+    detail:
+        type: 'string'
+        nullable: false
+        minLength: 1
+        description: 'Raised exception''s message.'
+    title:
+        type: 'string'
+        nullable: false
+        minLength: 1
+        description: 'Generic description of the encountered error.'
+    type:
+        type: 'string'
+        nullable: false
+        minLength: 1
+        description: 'Openapi URL.'

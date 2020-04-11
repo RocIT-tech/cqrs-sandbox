@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Controller\Api\TetrisGame;
 
 use App\Query\ListTetrisGameQuery;
-use App\Query\ListTetrisGameQueryHandler;
 use App\ReadModel\TetrisGame;
 use Fig\Link\GenericLinkProvider;
 use Fig\Link\Link;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\HandleTrait;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -27,36 +28,27 @@ use function array_reduce;
  */
 class ListTetrisGames
 {
-    /**
-     * @var ListTetrisGameQueryHandler
-     */
-    private $listTetrisGameQueryHandler;
+    use HandleTrait;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
     public function __construct(
-        ListTetrisGameQueryHandler $listTetrisGameQueryHandler,
         SerializerInterface $serializer,
-        RouterInterface $router
+        RouterInterface $router,
+        MessageBusInterface $queryBus
     ) {
-        $this->listTetrisGameQueryHandler = $listTetrisGameQueryHandler;
-        $this->serializer                 = $serializer;
-        $this->router                     = $router;
+        $this->serializer = $serializer;
+        $this->router     = $router;
+        $this->messageBus = $queryBus;
     }
 
     public function __invoke(Request $request)
     {
         $query = new ListTetrisGameQuery();
 
-        $tetrisGames = ($this->listTetrisGameQueryHandler)($query);
+        $tetrisGames = $this->handle($query);
 
         $linkProvider = $request->attributes->get('_links', new GenericLinkProvider());
 

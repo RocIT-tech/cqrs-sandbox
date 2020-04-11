@@ -7,16 +7,14 @@ namespace App\Command;
 use App\Entity\Challenger;
 use App\Entity\Person;
 use App\Entity\TetrisGame;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class CreateChallengerCommandHandler
+class CreateChallengerCommandHandler implements MessageHandlerInterface
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
@@ -32,6 +30,5 @@ class CreateChallengerCommandHandler
         $challenger->rank       = $createChallengerCommand->rank;
 
         $em->persist($challenger);
-        $em->flush();
     }
 }

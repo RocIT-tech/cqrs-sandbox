@@ -1,0 +1,21 @@
+title: 'ViolationError.v1'
+type: 'object'
+required:
+    - 'propertyPath'
+    - 'title'
+properties:
+    propertyPath:
+        type: 'string'
+        nullable: false
+        minLength: 1
+        description: 'Path to property on which the error is raised.'
+    title:
+        type: 'string'
+        nullable: false
+        minLength: 1
+        description: 'Validation error description.'
+    type:
+        type: 'string'
+        nullable: false
+        minLength: 1
+        description: 'Error code of the violation.'

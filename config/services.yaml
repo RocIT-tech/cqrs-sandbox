@@ -8,10 +8,16 @@ services:
 
     App\Command\:
         resource: '../src/Command/**/*Handler.php'
+        autoconfigure: false
+        tags:
+            - { name: 'messenger.message_handler', bus: 'command.bus' }
 
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    App\Exception\:
+        resource: '../src/Exception'
 
     App\Form\:
         resource: '../src/Form'
@@ -20,3 +26,8 @@ services:
 
     App\Query\:
         resource: '../src/Query/**/*Handler.php'
+        autoconfigure: false
+        tags:
+            - { name: 'messenger.message_handler', bus: 'query.bus' }
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler: ~

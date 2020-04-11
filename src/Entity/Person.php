@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ChangeTrackingPolicy;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="person")
+ * @ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
 class Person
 {
@@ -19,14 +22,14 @@ class Person
      * @ORM\Id()
      * @ORM\Column(name="person_id", type="string", length=40, nullable=false)
      */
-    public $id;
+    public string $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
-    public $name;
+    public string $name;
 
     /**
      * @var Challenger[]|Collection
@@ -37,5 +40,10 @@ class Person
      *     orphanRemoval=true
      * )
      */
-    public $tetrisGames;
+    public iterable $playedTetrisGames;
+
+    public function __construct()
+    {
+        $this->playedTetrisGames = new ArrayCollection();
+    }
 }

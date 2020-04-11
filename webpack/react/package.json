@@ -1,0 +1,37 @@
+{
+    "devDependencies": {
+        "@babel/preset-react": "^7.0.0",
+        "@symfony/webpack-encore": "^0.28.2",
+        "babel-eslint": "^10.0.1",
+        "core-js": "^3.0.0",
+        "eslint": "^5.16.0 || ^6.8.0",
+        "eslint-config-airbnb": "^18.1.0",
+        "eslint-import-resolver-webpack": "^0.12.1",
+        "eslint-loader": "^2.1.2",
+        "eslint-plugin-import": "^2.20.1",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.19.0",
+        "eslint-plugin-react-hooks": "^2.5.0 || ^1.7.0",
+        "node-sass": "^4.13.1",
+        "postcss-loader": "^3.0.0",
+        "regenerator-runtime": "^0.13.2",
+        "sass-loader": "^7.0.1",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.13.0",
+        "prop-types": "^15.7.2",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "tailwindcss": "^1.2.0",
+        "whatwg-fetch": "^3.0.0"
+    }
+}

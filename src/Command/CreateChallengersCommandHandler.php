@@ -8,17 +8,15 @@ use App\Command\CreateChallengersCommand\Challenger;
 use App\Entity\Challenger as ChallengerEntity;
 use App\Entity\Person;
 use App\Entity\TetrisGame;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use function array_reduce;
 
-class CreateChallengersCommandHandler
+class CreateChallengersCommandHandler implements MessageHandlerInterface
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
@@ -31,7 +29,7 @@ class CreateChallengersCommandHandler
 
         $challengers = array_reduce(
             $createChallengersCommand->challengers,
-            static function (array $challengers, Challenger $challenger) use ($em, $tetrisGame): ChallengerEntity {
+            static function (array $challengers, Challenger $challenger) use ($em, $tetrisGame): array {
                 $challengerEntity             = new ChallengerEntity();
                 $challengerEntity->person     = $em->getReference(Person::class, $challenger->personId);
                 $challengerEntity->tetrisGame = $tetrisGame;
@@ -39,12 +37,11 @@ class CreateChallengersCommandHandler
                 $challengerEntity->rank       = $challenger->rank;
 
                 $em->persist($challengerEntity);
+                $challengers[] = $challengerEntity;
 
-                return $challengerEntity;
+                return $challengers;
             },
             []
         );
-
-        $em->flush();
     }
 }

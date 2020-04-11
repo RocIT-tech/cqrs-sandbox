@@ -15,24 +15,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddPerson extends Command
 {
-    /**
-     * @var CreatePersonCommandHandler
-     */
-    private $createPersonCommandHandler;
+    private CreatePersonCommandHandler $createPersonCommandHandler;
 
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
     public function __construct(
         CreatePersonCommandHandler $createPersonCommandHandler,
         ValidatorInterface $validator
-    )
-    {
+    ) {
         parent::__construct(null);
         $this->createPersonCommandHandler = $createPersonCommandHandler;
-        $this->validator = $validator;
+        $this->validator                  = $validator;
     }
 
     /**
@@ -50,11 +43,11 @@ class AddPerson extends Command
     /**
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $command = new CreatePersonCommand();
 
-        $command->id = Uuid::uuid4()->toString();
+        $command->id   = Uuid::uuid4()->toString();
         $command->name = $input->getArgument('name');
 
         $this->validator->validate($command);

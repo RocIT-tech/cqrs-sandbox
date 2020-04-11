@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\Person as PersonEntity;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class CreatePersonCommandHandler
+class CreatePersonCommandHandler implements MessageHandlerInterface
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
@@ -28,6 +26,5 @@ class CreatePersonCommandHandler
         $personEntity->name = $createPersonCommand->name;
 
         $em->persist($personEntity);
-        $em->flush();
     }
 }

@@ -10,17 +10,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreateTetrisGameCommand
 {
     /**
-     * @var string
-     *
      * @Assert\NotNull()
      * @Assert\NotBlank(allowNull=true)
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var DateTimeImmutable
-     *
      * @Assert\Type("DateTimeImmutable")
      */
-    public $date;
+    public DateTimeImmutable $date;
 }

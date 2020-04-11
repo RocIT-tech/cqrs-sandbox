@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <p>
+        <strong>Choisissez l'application frontend à utiliser :</strong>
+    </p>
+    <ul>
+        <li>
+            <a href="{{ path('homepage', {'front': 'react'}) }}">Appli React.js</a>
+        </li>
+        <li>
+            <a href="{{ path('homepage', {'front': 'vue'}) }}">Appli Vue.js</a>
+        </li>
+    </ul>
+{% endblock %}

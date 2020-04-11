@@ -1,0 +1,8 @@
+App\Entity\TetrisGame:
+    tetris_game_empty:
+        id: 'tetris_game_empty'
+        date: '<(new \DateTimeImmutable("+1 days"))>'
+
+    tetris_game_full:
+        id: 'tetris_game_full'
+        date: '<(new \DateTimeImmutable("now"))>'

@@ -1,0 +1,82 @@
+openapi: '3.0.2'
+info:
+    title: 'Symfony Sandbox'
+    version: '1.0.0'
+    contact:
+        name: 'Roc''IT'
+    description: 'API list of sandbox'
+servers:
+    -
+        url: 'https://local.symfony:8080'
+        description: 'Local (vulcain)'
+    -
+        url: 'https://local.symfony'
+        description: 'Local'
+tags:
+    -
+        name: 'challenger'
+        description: 'Concerns Challengers'
+paths:
+    '/api/tetris-games/{tetrisGameId}/challengers':
+        parameters:
+            -
+                schema:
+                    type: 'string'
+                name: 'tetrisGameId'
+                in: 'path'
+                required: true
+        get:
+            summary: 'Retrieve all challengers for a given tetris game.'
+            tags:
+                - 'challenger'
+            responses:
+                '200':
+                    description: 'OK'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '../models/Challengers.v1.yaml'
+            operationId: 'GetTetrisGameChallengers'
+        post:
+            summary: 'Add a list of challengers to a given tetris game.'
+            operationId: 'AddTetrisGameChallengers'
+            responses:
+                '201':
+                    description: 'Created'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '../models/Challengers.v1.yaml'
+                '400':
+                    description: 'Bad Request'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '../models/ErrorResponse.v1.yaml'
+                '404':
+                    description: 'Not Found'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '../models/ErrorResponse.v1.yaml'
+                '409':
+                    description: 'Conflict'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '../models/ErrorResponse.v1.yaml'
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '../models/Challengers.v1.yaml'
+components:
+    schemas: {}
+    securitySchemes:
+        basic:
+            type: 'http'
+            scheme: 'basic'
+            description: 'sandbox / sandbox'
+security:
+    -
+        basic: []

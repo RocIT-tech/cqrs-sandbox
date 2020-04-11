@@ -1,0 +1,35 @@
+{
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.28.2",
+        "babel-eslint": "^10.0.1",
+        "core-js": "^3.0.0",
+        "eslint": "^5.16.0 || ^6.8.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-import-resolver-webpack": "^0.12.1",
+        "eslint-loader": "^2.1.2",
+        "eslint-plugin-import": "^2.20.1",
+        "eslint-plugin-vue": "^7.0.0-alpha.0",
+        "node-sass": "^4.13.1",
+        "postcss-loader": "^3.0.0",
+        "regenerator-runtime": "^0.13.2",
+        "sass-loader": "^7.0.1",
+        "vue-loader": "^15.0.11",
+        "vue-template-compiler": "^2.6.11",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.13.0",
+        "install-peerdeps": "^2.0.1",
+        "tailwindcss": "^1.2.0",
+        "vue": "^2.6.11",
+        "whatwg-fetch": "^3.0.0"
+    }
+}

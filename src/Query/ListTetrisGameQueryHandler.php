@@ -6,24 +6,20 @@ namespace App\Query;
 
 use App\Entity\TetrisGame as TetrisGameEntity;
 use App\ReadModel\TetrisGame;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use function array_map;
 
-class ListTetrisGameQueryHandler
+class ListTetrisGameQueryHandler implements MessageHandlerInterface
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
 
     /**
-     * @param ListTetrisGameQuery $listTetrisGameQuery
-     *
      * @return TetrisGame[]
      */
     public function __invoke(ListTetrisGameQuery $listTetrisGameQuery): array

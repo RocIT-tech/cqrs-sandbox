@@ -1,0 +1,28 @@
+App\Entity\Person:
+    person_adrien_r:
+        id: 'person_adrien_r'
+        name: 'Adrien R.'
+
+    person_remi_b:
+        id: 'person_remi_b'
+        name: 'Rémi B.'
+
+    person_mathieu_c:
+        id: 'person_mathieu_c'
+        name: 'Mathieu C.'
+
+    person_andoni_l:
+        id: 'person_andoni_l'
+        name: 'Andoni L.'
+
+    person_quentin_c:
+        id: 'person_quentin_c'
+        name: 'Quentin C.'
+
+    person_henry_d:
+        id: 'person_henry_d'
+        name: 'Henry D.'
+
+    person_kalala_m:
+        id: 'person_kalala_m'
+        name: 'Kalala M.'

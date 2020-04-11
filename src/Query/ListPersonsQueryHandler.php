@@ -7,17 +7,15 @@ namespace App\Query;
 use App\Entity\Person as PersonEntity;
 use App\ReadModel\ListPerson;
 use App\ReadModel\Person;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use function array_map;
 
-class ListPersonsQueryHandler
+class ListPersonsQueryHandler implements MessageHandlerInterface
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }

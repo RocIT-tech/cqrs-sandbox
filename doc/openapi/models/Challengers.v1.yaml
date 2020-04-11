@@ -1,0 +1,4 @@
+title: 'Challengers.v1'
+type: 'array'
+items:
+    $ref: './Challenger.v1.yaml'

@@ -6,26 +6,20 @@ namespace App\Query;
 
 use App\Entity\TetrisGame as TetrisGameEntity;
 use App\ReadModel\TetrisGame;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class FetchTetrisGameQueryHandler
+class FetchTetrisGameQueryHandler implements MessageHandlerInterface
 {
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
 
     /**
-     * @param FetchTetrisGameQuery $fetchTetrisGameQuery
-     *
-     * @return TetrisGame
-     *
      * @throws NotFoundHttpException
      */
     public function __invoke(FetchTetrisGameQuery $fetchTetrisGameQuery): TetrisGame
